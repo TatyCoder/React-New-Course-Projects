@@ -1,7 +1,43 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import Button from '../../UI/Button/Button';
-import './CourseInput.css';
+// import './CourseInput.css';  // I don't need to import this anymore. 
+
+// Adding a new component (I can have multiple components per file), then copying the CourseInput.css file but getting rid of the selectors:
+const FormControl = styled.div`
+  margin: 0.5rem 0;
+  
+  & label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  & input {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    font: inherit;
+    line-height: 1.5rem;
+    padding: 0 0.25rem;
+  }
+
+  & input:focus {
+    outline: none;
+    background: #fad0ec;
+    border-color: #8b005d;
+  }
+
+  &.invalid input {
+    border-color: red;
+    background: #ffd7d7;
+  }
+
+  &.invalid label {
+    color: red;
+  }
+`;
 
 // Adding a state as an indicator for however the user entered something valid or not:
 const CourseInput = props => {
@@ -26,13 +62,13 @@ const CourseInput = props => {
     props.onAddGoal(enteredValue);
   };
 
-  // Adding a new CSS class dynamically to the div which holds label and input, only if the value entered is invalid:
+  // Now replacing the div with the new FormControl component and adjusting the conditions inside className: if it is invalid, the invalid class is getting added:
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className={`form-control ${!isValid ? 'invalid' : ''}`}>
+      <FormControl className={!isValid && 'invalid'}> 
         <label>Course Goal</label>
         <input type="text" onChange={goalInputChangeHandler} />
-      </div>
+      </FormControl>
       <Button type="submit">Add Goal</Button>
     </form>
   );
