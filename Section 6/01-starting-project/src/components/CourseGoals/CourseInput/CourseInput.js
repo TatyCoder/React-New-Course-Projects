@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../../UI/Button/Button';
 // import './CourseInput.css';  // I don't need to import this anymore. 
 
-// Adding a new component (I can have multiple components per file), then copying the CourseInput.css file but getting rid of the selectors:
+// I can now use the invalid prop here between the backticks using a special syntax:
 const FormControl = styled.div`
   margin: 0.5rem 0;
   
@@ -12,12 +12,17 @@ const FormControl = styled.div`
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;
+    // If the props.invalid is true I set a color of red; otherwise, a color of black:
+    color: ${props => (props.invalid ? 'red' : 'black')}
   }
 
   & input {
     display: block;
     width: 100%;
-    border: 1px solid #ccc;
+    // If the props.invalid is true I return red as a text:
+    border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
+    // And now setting background here:
+    background: ${props => (props.invalid ? '#ffd7d7' : 'transparent')};
     font: inherit;
     line-height: 1.5rem;
     padding: 0 0.25rem;
@@ -27,15 +32,6 @@ const FormControl = styled.div`
     outline: none;
     background: #fad0ec;
     border-color: #8b005d;
-  }
-
-  &.invalid input {
-    border-color: red;
-    background: #ffd7d7;
-  }
-
-  &.invalid label {
-    color: red;
   }
 `;
 
@@ -62,10 +58,11 @@ const CourseInput = props => {
     props.onAddGoal(enteredValue);
   };
 
-  // Now replacing the div with the new FormControl component and adjusting the conditions inside className: if it is invalid, the invalid class is getting added:
+  // I can also add props to my styled components to change styles dynamically, here adding a prop called invalid:
   return (
     <form onSubmit={formSubmitHandler}>
-      <FormControl className={!isValid && 'invalid'}> 
+      <FormControl invalid={!isValid}> 
+      {/* So I set invalid to true if what the user entered was invalid. */}
         <label>Course Goal</label>
         <input type="text" onChange={goalInputChangeHandler} />
       </FormControl>
