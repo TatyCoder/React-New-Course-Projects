@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';  // I can get rid of this import because I'll use CSS Modules.
 
 import Button from '../../UI/Button/Button';
-// import './CourseInput.css';  // I don't need to import this anymore. 
+import styles from './CourseInput.module.css';  // To import from a css file (which need to be renamed) when using CSS Modules. 
 
 // I can now use the invalid prop here between the backticks using a special syntax:
-const FormControl = styled.div`
-  margin: 0.5rem 0;
+// const FormControl = styled.div`
+//   margin: 0.5rem 0;
   
-  & label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 0.5rem;
-    // If the props.invalid is true I set a color of red; otherwise, a color of black:
-    color: ${props => (props.invalid ? 'red' : 'black')}
-  }
+//   & label {
+//     font-weight: bold;
+//     display: block;
+//     margin-bottom: 0.5rem;
+//     // If the props.invalid is true I set a color of red; otherwise, a color of black:
+//     color: ${props => (props.invalid ? 'red' : 'black')}
+//   }
 
-  & input {
-    display: block;
-    width: 100%;
-    // If the props.invalid is true I return red as a text:
-    border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
-    // And now setting background here:
-    background: ${props => (props.invalid ? '#ffd7d7' : 'transparent')};
-    font: inherit;
-    line-height: 1.5rem;
-    padding: 0 0.25rem;
-  }
+//   & input {
+//     display: block;
+//     width: 100%;
+//     // If the props.invalid is true I return red as a text:
+//     border: 1px solid ${props => (props.invalid ? 'red' : '#ccc')};
+//     // And now setting background here:
+//     background: ${props => (props.invalid ? '#ffd7d7' : 'transparent')};
+//     font: inherit;
+//     line-height: 1.5rem;
+//     padding: 0 0.25rem;
+//   }
 
-  & input:focus {
-    outline: none;
-    background: #fad0ec;
-    border-color: #8b005d;
-  }
-`;
+//   & input:focus {
+//     outline: none;
+//     background: #fad0ec;
+//     border-color: #8b005d;
+//   }
+// `;
 
 // Adding a state as an indicator for however the user entered something valid or not:
 const CourseInput = props => {
@@ -58,14 +58,14 @@ const CourseInput = props => {
     props.onAddGoal(enteredValue);
   };
 
-  // I can also add props to my styled components to change styles dynamically, here adding a prop called invalid:
+  // I'll go back to the old div (replacing FormControl), and I will add a className and refer to styles:
   return (
     <form onSubmit={formSubmitHandler}>
-      <FormControl invalid={!isValid}> 
-      {/* So I set invalid to true if what the user entered was invalid. */}
+      <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}> 
+      {/* Using this special syntax for accessing the properties with dashes on them, and adding dynamic classes with CSS Modules. */}
         <label>Course Goal</label>
         <input type="text" onChange={goalInputChangeHandler} />
-      </FormControl>
+      </div>
       <Button type="submit">Add Goal</Button>
     </form>
   );
