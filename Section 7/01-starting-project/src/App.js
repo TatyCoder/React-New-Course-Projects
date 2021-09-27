@@ -10,10 +10,11 @@ const App = () => {
     { text: 'Finish the course!', id: 'g2' }
   ]);
 
+  // Reverting id to Math.random().toString(), instead of the hard coded 'goal1' which created a Warning:
   const addGoalHandler = enteredText => {
     setCourseGoals(prevGoals => {
       const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: 'goal1' });
+      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
       return updatedGoals;
     });
   };
