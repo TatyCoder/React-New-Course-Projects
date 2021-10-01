@@ -1,6 +1,9 @@
 // To import the Card component which I want to use here:
 import Card from '../UI/Card';
 
+// To import the Button component to use it here:
+import Button from '../UI/Button';
+
 // To import the styles using CSS modules:
 import styles from './AddUser.module.css'
 
@@ -10,7 +13,7 @@ const AddUser = (props) => {
         event.preventDefault();
     };
 
-    // Wrapping the form in the Card component:
+    // Now using the Button component:
     return (
       <Card className={styles.input}>
         <form onSubmit={addUserHandler}>
@@ -18,7 +21,7 @@ const AddUser = (props) => {
           <input id="username" type="text" />
           <label htmlFor="age">Age (Years)</label>
           <input id="age" type="number" />
-          <button type="submit">Add User</button>
+          <Button type="submit">Add User</Button>
         </form>
       </Card>
     );
