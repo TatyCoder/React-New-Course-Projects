@@ -15,10 +15,18 @@ const AddUser = (props) => {
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
 
-  // This function should be executed when the form is submitted:
+  // Adding validation and resetting logic:
   const addUserHandler = (event) => {
     event.preventDefault();
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      return;
+    }
+    if (+enteredAge < 1) {  // By adding a + it forces a conversion of enteredAge to a number (not a string).
+      return;
+    }
     console.log(enteredUsername, enteredAge);
+    setEnteredUsername('');
+    setEnteredAge('');
   };
 
   // I need functions which will be trigger on every keystroke of the input (where I get the event object, because I'll listen to a default DOM event):
@@ -30,14 +38,24 @@ const AddUser = (props) => {
     setEnteredAge(event.target.value);
   };
 
-  // Adding the onChange prop which will bind input to the event listener:
+  // Adding the value props to reflect my current state in the inputs when the form is submitted:
   return (
     <Card className={styles.input}>
       <form onSubmit={addUserHandler}>
         <label htmlFor="username">Username</label>
-        <input id="username" type="text" onChange={usernameChangeHandler} />
+        <input 
+          id="username" 
+          type="text" 
+          value={enteredUsername} 
+          onChange={usernameChangeHandler} 
+        />
         <label htmlFor="age">Age (Years)</label>
-        <input id="age" type="number" onChange={ageChangeHandler} />
+        <input 
+          id="age" 
+          type="number" 
+          value={enteredAge} 
+          onChange={ageChangeHandler} 
+        />
         <Button type="submit">Add User</Button>
       </form>
     </Card>
