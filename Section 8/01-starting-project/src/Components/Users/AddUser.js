@@ -24,6 +24,8 @@ const AddUser = (props) => {
     if (+enteredAge < 1) {  // By adding a + it forces a conversion of enteredAge to a number (not a string).
       return;
     }
+    // Calling the new props here and executing it as a function forwarding the two pieces of data:
+    props.onAddUser(enteredUsername, enteredAge);
     console.log(enteredUsername, enteredAge);
     setEnteredUsername('');
     setEnteredAge('');

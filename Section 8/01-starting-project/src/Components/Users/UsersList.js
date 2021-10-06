@@ -4,12 +4,13 @@ import Card from '../UI/Card';
 // To import the styles using CSS modules:
 import styles from './UsersList.module.css';
 
+// Adding the key prop which should hold an unique value (id) to efficiently update list items:
 const UsersList = (props) => {
     return (
       <Card className={styles.users}>
         <ul>
           {props.users.map((user) => (
-            <li>
+            <li key={user.id}>
               {user.name} ({user.age} years old)
             </li>
           ))}
