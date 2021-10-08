@@ -13,19 +13,27 @@ import ErrorModal from '../UI/ErrorModal';
 // To import the styles using CSS modules:
 import styles from './AddUser.module.css'
 
-// Initializing useState here:
+// Adding another useState to manage the error:
 const AddUser = (props) => {
   const [enteredUsername, setEnteredUsername] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
+  const [error, setError] = useState();  // The initial value is undefined.
 
-  // Adding validation and resetting logic:
+  // Setting the error here as an object where I have a title and a message as properties:
   const addUserHandler = (event) => {
     event.preventDefault();
     if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({
+        title: 'Invalid input',
+        message: 'Please enter a valid name and age (non-empty values).'
+      });
       return;
     }
     if (+enteredAge < 1) {
-      // By adding a + it forces a conversion of enteredAge to a number (not a string).
+      setError({
+        title: 'Invalid age',
+        message:'Please enter a valid age (> 0).'
+      });
       return;
     }
     // Calling the new props here and executing it as a function forwarding the two pieces of data:
@@ -44,10 +52,16 @@ const AddUser = (props) => {
     setEnteredAge(event.target.value);
   };
 
-  // Adding the ErrorModal component here:
+  // Adding a new function to clear the error state by resetting it to undefined, null or any other falsy value:
+  const errorHandler = () => {
+    setError(null); 
+  };  // This is the function which is ultimately triggered when I click on the backdrop or on the OK button.
+
+  // Conditionally rendering the ErrorModal, where if there's an error (it's truthy) I will output the ErrorModal.
+  // Also adding a new onHandleError prop where I pass in a pointer at the errorHandler function:
   return (
     <div>
-      <ErrorModal title="An error occured!" message="Something went wrong!"/>
+      {error && (<ErrorModal title={error.title} message={error.message} onHandleError={errorHandler}/>)}
       <Card className={styles.input}>
         <form onSubmit={addUserHandler}>
           <label htmlFor="username">Username</label>
